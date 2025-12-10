@@ -1,0 +1,265 @@
+/**
+ * Global Design System Styles
+ * Vercel/Linear inspired design tokens and utilities
+ */
+
+/* ==================== Typography ==================== */
+.text-gradient {
+  background: linear-gradient(to right, var(--primary), #60A5FA, #22D3EE);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-purple {
+  background: linear-gradient(to right, #8B5CF6, #A78BFA, #C4B5FD);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ==================== Interactive States ==================== */
+.interactive-card {
+  @apply transition-all duration-200 cursor-pointer;
+  @apply hover:shadow-md hover:border-border/80;
+  @apply active:scale-[0.99];
+}
+
+.interactive-button {
+  @apply transition-all duration-150;
+  @apply hover:scale-[1.02];
+  @apply active:scale-[0.98];
+}
+
+/* ==================== Glassmorphism ==================== */
+.glass {
+  @apply bg-background/80 backdrop-blur-lg border border-border/50;
+}
+
+.glass-dark {
+  @apply bg-background/60 backdrop-blur-xl border border-white/10;
+}
+
+/* ==================== Glow Effects ==================== */
+.glow-primary {
+  box-shadow: 0 0 20px -5px var(--primary);
+}
+
+.glow-blue {
+  box-shadow: 0 0 20px -5px #3B82F6;
+}
+
+.glow-purple {
+  box-shadow: 0 0 20px -5px #8B5CF6;
+}
+
+/* ==================== Grid Patterns ==================== */
+.grid-pattern {
+  background-image: 
+    linear-gradient(to right, var(--border) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--border) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.grid-pattern-fade {
+  background-image: 
+    linear-gradient(to right, var(--border) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--border) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: radial-gradient(ellipse 60% 50% at 50% 0%, black 70%, transparent 100%);
+}
+
+/* ==================== Noise Texture ==================== */
+.noise {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.02;
+}
+
+/* ==================== Animated Backgrounds ==================== */
+.gradient-bg {
+  background: linear-gradient(
+    45deg,
+    var(--background) 0%,
+    var(--muted) 25%,
+    var(--background) 50%,
+    var(--muted) 75%,
+    var(--background) 100%
+  );
+  background-size: 400% 400%;
+  animation: gradient-shift 15s ease infinite;
+}
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* ==================== Card Variants ==================== */
+.card-hover {
+  @apply transition-all duration-200;
+  @apply hover:shadow-lg hover:-translate-y-0.5;
+}
+
+.card-highlight {
+  @apply relative overflow-hidden;
+}
+
+.card-highlight::before {
+  content: '';
+  @apply absolute inset-0 opacity-0 transition-opacity duration-300;
+  background: linear-gradient(
+    to bottom right,
+    transparent,
+    rgba(59, 130, 246, 0.05)
+  );
+}
+
+.card-highlight:hover::before {
+  @apply opacity-100;
+}
+
+/* ==================== Status Indicators ==================== */
+.status-dot {
+  @apply inline-block w-2 h-2 rounded-full;
+}
+
+.status-dot-online {
+  @apply bg-green-500;
+  animation: pulse-green 2s ease-in-out infinite;
+}
+
+.status-dot-warning {
+  @apply bg-amber-500;
+  animation: pulse-amber 2s ease-in-out infinite;
+}
+
+.status-dot-error {
+  @apply bg-red-500;
+  animation: pulse-red 2s ease-in-out infinite;
+}
+
+@keyframes pulse-green {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
+  50% { box-shadow: 0 0 0 4px rgba(34, 197, 94, 0); }
+}
+
+@keyframes pulse-amber {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4); }
+  50% { box-shadow: 0 0 0 4px rgba(245, 158, 11, 0); }
+}
+
+@keyframes pulse-red {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+  50% { box-shadow: 0 0 0 4px rgba(239, 68, 68, 0); }
+}
+
+/* ==================== Skeleton Animation ==================== */
+.skeleton-shimmer {
+  @apply relative overflow-hidden;
+  @apply bg-muted;
+}
+
+.skeleton-shimmer::after {
+  content: '';
+  @apply absolute inset-0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  100% { transform: translateX(100%); }
+}
+
+/* ==================== Focus Styles ==================== */
+.focus-ring {
+  @apply outline-none;
+  @apply focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+}
+
+/* ==================== Scrollbar Styling ==================== */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--muted) transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: var(--muted);
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: var(--muted-foreground);
+}
+
+/* ==================== Overlay Patterns ==================== */
+.radial-gradient {
+  background: radial-gradient(
+    circle at top,
+    var(--primary) / 0.1 0%,
+    transparent 50%
+  );
+}
+
+.radial-gradient-center {
+  background: radial-gradient(
+    circle at center,
+    var(--primary) / 0.1 0%,
+    transparent 70%
+  );
+}
+
+/* ==================== Transition Utilities ==================== */
+.transition-fast {
+  @apply transition-all duration-100 ease-out;
+}
+
+.transition-normal {
+  @apply transition-all duration-200 ease-out;
+}
+
+.transition-slow {
+  @apply transition-all duration-300 ease-out;
+}
+
+/* ==================== Hover Underline Effect ==================== */
+.hover-underline {
+  @apply relative;
+}
+
+.hover-underline::after {
+  content: '';
+  @apply absolute bottom-0 left-0 w-0 h-0.5 bg-primary;
+  @apply transition-all duration-200;
+}
+
+.hover-underline:hover::after {
+  @apply w-full;
+}
+
+/* ==================== Responsive Containers ==================== */
+.container-narrow {
+  @apply max-w-3xl mx-auto px-4;
+}
+
+.container-medium {
+  @apply max-w-5xl mx-auto px-4;
+}
+
+.container-wide {
+  @apply max-w-7xl mx-auto px-4;
+}

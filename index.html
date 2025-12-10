@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="description" content="Mint OS Admin Dashboard - Production Management" />
+    <meta name="theme-color" content="#1a1a1a" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <title>Mint OS - Admin Dashboard</title>
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Critical CSS - Prevent flash of unstyled content */
+        :root {
+            --background: #FFFFFF;
+            --foreground: #0A0A0A;
+            --primary: #3B82F6;
+            --card: #FFFFFF;
+            --muted: #F4F4F5;
+        }
+        
+        .dark {
+            --background: #0A0A0A;
+            --foreground: #FAFAFA;
+            --card: #18181B;
+            --muted: #27272A;
+        }
+        
+        html, body, #root {
+            background-color: var(--background);
+            color: var(--foreground);
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+        
+        /* Prevent color flash during load */
+        body.loading * {
+            transition: none !important;
+        }
+        
+        /* Loading spinner styles */
+        .loading-spinner {
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
+    <link href="/src/main.css" rel="stylesheet" />
+</head>
+
+<body class="loading">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+</body>
+
+</html>
