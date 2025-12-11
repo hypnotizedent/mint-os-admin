@@ -121,7 +121,7 @@ export function CustomersPage({ customers, onViewCustomer, onNewOrder, onCustome
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide">Paid Revenue</p>
-              <p className="text-3xl font-bold text-foreground mt-2">${totalRevenue.toLocaleString()}</p>
+              <p className="text-3xl font-bold text-foreground mt-2">${(totalRevenue || 0).toLocaleString()}</p>
             </div>
             <div className="p-3 rounded-lg bg-magenta/10">
               <CurrencyDollar size={24} weight="fill" className="text-magenta" />
@@ -222,7 +222,7 @@ export function CustomersPage({ customers, onViewCustomer, onNewOrder, onCustome
                 <div>
                   <p className="text-xs text-muted-foreground mb-1">Revenue</p>
                   <p className="text-lg font-semibold text-foreground">
-                    ${(customer.paidRevenue ?? customer.totalRevenue).toLocaleString()}
+                    ${((customer.paidRevenue ?? customer.totalRevenue) || 0).toLocaleString()}
                   </p>
                   {(customer.quoteTotal ?? 0) > 0 && (
                     <p className="text-xs text-muted-foreground">
@@ -234,7 +234,7 @@ export function CustomersPage({ customers, onViewCustomer, onNewOrder, onCustome
 
               <div className="pt-2 border-t border-border">
                 <p className="text-xs text-muted-foreground">
-                  Last order: {new Date(customer.lastOrderDate).toLocaleDateString()}
+                  Last order: {customer.lastOrderDate ? new Date(customer.lastOrderDate).toLocaleDateString() : 'N/A'}
                 </p>
               </div>
 

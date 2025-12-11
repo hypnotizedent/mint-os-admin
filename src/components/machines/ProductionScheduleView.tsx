@@ -150,7 +150,7 @@ export function ProductionScheduleView({ onViewJob }: ProductionScheduleViewProp
   };
 
   // Show loading state
-  if (isLoading) {
+  if (isLoadingMachines) {
     return (
       <div className="space-y-6">
         <div className="flex items-center justify-between">
