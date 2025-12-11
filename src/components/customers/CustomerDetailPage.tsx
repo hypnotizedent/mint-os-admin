@@ -3,29 +3,31 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Skeleton } from "@/components/ui/skeleton"
-import { 
+import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { 
-  ArrowLeft, 
-  EnvelopeSimple, 
-  Phone, 
-  Buildings, 
-  Package, 
+import {
+  ArrowLeft,
+  EnvelopeSimple,
+  Phone,
+  Buildings,
+  Package,
   CurrencyDollar,
   Plus,
   Clock,
   FileText,
-  ArrowsClockwise
+  ArrowsClockwise,
+  User
 } from "@phosphor-icons/react"
 import { CustomerSegmentBadge, CustomerSegmentInfo, type CustomerSegment, segmentConfig } from "./CustomerSegmentBadge"
 import { toast } from "sonner"
 import type { Customer } from "@/lib/types"
 import { dashboardApi } from "@/lib/dashboard-api"
+import { useNavigate } from "react-router-dom"
 
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:1337';
 const API_SERVICE_BASE = import.meta.env.VITE_API_SERVICE_URL || 'http://localhost:3001';
@@ -71,6 +73,7 @@ interface CustomerDetailPageProps {
 }
 
 export function CustomerDetailPage({ customerId, onBack, onNewOrder, onViewOrder }: CustomerDetailPageProps) {
+  const navigate = useNavigate();
   const [customer, setCustomer] = useState<Customer | null>(null);
   const [orders, setOrders] = useState<Order[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -147,6 +150,25 @@ export function CustomerDetailPage({ customerId, onBack, onNewOrder, onViewOrder
     }
   };
 
+  // Handle New Order with customer prefill
+  const handleNewOrder = () => {
+    if (customer) {
+      navigate('/quotes/new', {
+        state: {
+          prefillCustomer: {
+            id: customer.id,
+            name: customer.name,
+            email: customer.email,
+            phone: customer.phone,
+            company: customer.company
+          }
+        }
+      });
+    } else {
+      onNewOrder(customerId);
+    }
+  };
+
   // Fetch customer details from dashboard API
   useEffect(() => {
     const fetchCustomer = async () => {
@@ -156,11 +178,11 @@ export function CustomerDetailPage({ customerId, onBack, onNewOrder, onViewOrder
         // Use dashboard API to get customer with stats
         const result = await dashboardApi.getCustomers({ limit: 5000 });
         const c = result.customers.find(cust => cust.id === customerId);
-        
+
         if (!c) {
           throw new Error('Customer not found');
         }
-        
+
         setCustomer({
           id: c.id,
           name: c.name || 'Unknown',
@@ -193,10 +215,10 @@ export function CustomerDetailPage({ customerId, onBack, onNewOrder, onViewOrder
       try {
         // Get all orders and filter by customer name
         const result = await dashboardApi.getOrders({ limit: 5000 });
-        const customerOrders = result.orders.filter(o => 
+        const customerOrders = result.orders.filter(o =>
           o.customer_name === customer?.name
         );
-        
+
         const fetchedOrders: Order[] = customerOrders.map((o: any) => ({
           id: o.id.toString(),
           documentId: o.id.toString(),
@@ -212,10 +234,10 @@ export function CustomerDetailPage({ customerId, onBack, onNewOrder, onViewOrder
           notes: o.notes || o.production_notes,
           items: o.line_items || [],
         }));
-        
-        // Sort by date descending
+
+        // Sort by date descending (newest first)
         fetchedOrders.sort((a, b) => new Date(b.dueDate).getTime() - new Date(a.dueDate).getTime());
-        
+
         setOrders(fetchedOrders);
       } catch (err) {
         console.error('Failed to fetch orders:', err);
@@ -288,88 +310,61 @@ export function CustomerDetailPage({ customerId, onBack, onNewOrder, onViewOrder
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <Button variant="ghost" onClick={onBack} className="gap-2">
-            <ArrowLeft size={18} />
-            Back
-          </Button>
-          <div>
-            <div className="flex items-center gap-3">
-              <h1 className="text-3xl font-bold text-foreground tracking-tight">
-                {customer.name}
-              </h1>
-              {segmentDetails?.segment && (
-                <CustomerSegmentBadge segment={segmentDetails.segment} size="md" />
-              )}
-            </div>
-            <p className="text-muted-foreground">{customer.company}</p>
-          </div>
-        </div>
-        <Button className="gap-2" onClick={() => onNewOrder(customerId)}>
-          <Plus size={18} weight="bold" />
-          New Order
+      {/* Header with Back Button */}
+      <div className="flex items-center gap-4">
+        <Button variant="ghost" onClick={onBack} className="gap-2">
+          <ArrowLeft size={18} />
+          Back
         </Button>
       </div>
 
-      {/* Customer Segment Section */}
-      <Card className="p-6">
-        <div className="flex items-center justify-between mb-4">
-          <CardTitle className="flex items-center gap-2 text-lg">
-            <Buildings size={20} />
-            Customer Segment
-          </CardTitle>
-          <div className="flex items-center gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleDetectSegment}
-              disabled={isDetecting}
-              className="gap-2"
-            >
-              <ArrowsClockwise size={16} className={isDetecting ? 'animate-spin' : ''} />
-              {isDetecting ? 'Detecting...' : 'Auto-Detect'}
-            </Button>
-            <Select
-              value={segmentDetails?.segment || 'b2c'}
-              onValueChange={(value) => handleOverrideSegment(value as CustomerSegment)}
-              disabled={segmentLoading}
-            >
-              <SelectTrigger className="w-[140px]">
-                <SelectValue placeholder="Override" />
-              </SelectTrigger>
-              <SelectContent>
-                {Object.entries(segmentConfig).map(([key, config]) => (
-                  <SelectItem key={key} value={key}>
-                    {config.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+      {/* Primary Contact Info Card - PROMINENT */}
+      <Card className="p-6 bg-gradient-to-r from-primary/5 to-primary/10 border-primary/20">
+        <div className="flex items-start justify-between">
+          <div className="flex items-start gap-4">
+            <div className="p-3 rounded-full bg-primary/10">
+              <User size={32} weight="fill" className="text-primary" />
+            </div>
+            <div>
+              <div className="flex items-center gap-3 mb-1">
+                <h1 className="text-3xl font-bold text-foreground tracking-tight">
+                  {customer.name}
+                </h1>
+                {segmentDetails?.segment && (
+                  <CustomerSegmentBadge segment={segmentDetails.segment} size="sm" />
+                )}
+              </div>
+              {customer.company && (
+                <p className="text-lg text-muted-foreground flex items-center gap-2">
+                  <Buildings size={18} />
+                  {customer.company}
+                </p>
+              )}
+              <div className="flex items-center gap-6 mt-3">
+                {customer.email && (
+                  <a href={`mailto:${customer.email}`} className="flex items-center gap-2 text-primary hover:underline">
+                    <EnvelopeSimple size={18} />
+                    {customer.email}
+                  </a>
+                )}
+                {customer.phone && (
+                  <a href={`tel:${customer.phone}`} className="flex items-center gap-2 text-primary hover:underline">
+                    <Phone size={18} />
+                    {customer.phone}
+                  </a>
+                )}
+              </div>
+            </div>
           </div>
+          <Button className="gap-2" size="lg" onClick={handleNewOrder}>
+            <Plus size={18} weight="bold" />
+            New Order
+          </Button>
         </div>
-        
-        {segmentDetails ? (
-          <CustomerSegmentInfo
-            segment={segmentDetails.segment}
-            details={{
-              ...segmentDetails.criteria,
-              reason: segmentDetails.reason,
-            }}
-            autoDetected={true}
-            lastUpdate={segmentDetails.detectedAt}
-          />
-        ) : (
-          <div className="text-center py-6 text-muted-foreground">
-            <p className="mb-2">No segment detected yet</p>
-            <p className="text-sm">Click "Auto-Detect" to analyze order history</p>
-          </div>
-        )}
       </Card>
 
-      {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+      {/* Stats Cards - 2 column layout */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card className="p-6">
           <div className="flex items-center justify-between">
             <div>
@@ -401,34 +396,62 @@ export function CustomerDetailPage({ customerId, onBack, onNewOrder, onViewOrder
             </div>
           </div>
         </Card>
-
-        <Card className="p-6">
-          <div className="flex items-center gap-3">
-            <EnvelopeSimple size={20} className="text-muted-foreground" />
-            <div className="min-w-0">
-              <p className="text-sm text-muted-foreground">Email</p>
-              <p className="font-medium truncate">{customer.email || 'Not provided'}</p>
-            </div>
-          </div>
-        </Card>
-
-        <Card className="p-6">
-          <div className="flex items-center gap-3">
-            <Phone size={20} className="text-muted-foreground" />
-            <div>
-              <p className="text-sm text-muted-foreground">Phone</p>
-              <p className="font-medium">{customer.phone || 'Not provided'}</p>
-            </div>
-          </div>
-        </Card>
       </div>
+
+      {/* Customer Segment Section - Collapsed/Smaller */}
+      <Card className="p-4">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <CardTitle className="flex items-center gap-2 text-base">
+              <Buildings size={18} />
+              Segment
+            </CardTitle>
+            {segmentDetails?.segment && (
+              <CustomerSegmentBadge segment={segmentDetails.segment} size="sm" />
+            )}
+            {segmentDetails?.reason && (
+              <span className="text-sm text-muted-foreground">
+                {segmentDetails.reason}
+              </span>
+            )}
+          </div>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleDetectSegment}
+              disabled={isDetecting}
+              className="gap-1 h-8"
+            >
+              <ArrowsClockwise size={14} className={isDetecting ? 'animate-spin' : ''} />
+              {isDetecting ? 'Detecting...' : 'Auto-Detect'}
+            </Button>
+            <Select
+              value={segmentDetails?.segment || 'b2c'}
+              onValueChange={(value) => handleOverrideSegment(value as CustomerSegment)}
+              disabled={segmentLoading}
+            >
+              <SelectTrigger className="w-[120px] h-8">
+                <SelectValue placeholder="Override" />
+              </SelectTrigger>
+              <SelectContent>
+                {Object.entries(segmentConfig).map(([key, config]) => (
+                  <SelectItem key={key} value={key}>
+                    {config.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+      </Card>
 
       {/* Orders List */}
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <FileText size={20} />
-            Order History
+            Order History ({orders.length})
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -454,7 +477,7 @@ export function CustomerDetailPage({ customerId, onBack, onNewOrder, onViewOrder
               <p className="text-sm text-muted-foreground mb-4">
                 {ordersLoading ? 'Loading orders...' : 'Orders may still be importing from Printavo.'}
               </p>
-              <Button onClick={() => onNewOrder(customerId)}>
+              <Button onClick={handleNewOrder}>
                 <Plus size={16} className="mr-2" />
                 Create First Order
               </Button>

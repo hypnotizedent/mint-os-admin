@@ -4,6 +4,7 @@
  * Integrates with ProductSearch for catalog-based product selection.
  */
 import { useState, useCallback, useMemo, useRef, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -213,6 +214,8 @@ interface CustomerSearchResult {
 }
 
 export function QuoteBuilder() {
+  const location = useLocation();
+  const prefillCustomer = location.state?.prefillCustomer;
   const [activeTab, setActiveTab] = useState('details');
   const [formData, setFormData] = useState<QuoteFormData>({
     customer: { name: '', email: '', phone: '', company: '' },
@@ -308,6 +311,22 @@ export function QuoteBuilder() {
       total,
     };
   }, [formData]);
+
+  // Prefill customer data if coming from customer detail page
+  useEffect(() => {
+    if (prefillCustomer) {
+      setFormData(prev => ({
+        ...prev,
+        customer: {
+          name: prefillCustomer.name || '',
+          email: prefillCustomer.email || '',
+          phone: prefillCustomer.phone || '',
+          company: prefillCustomer.company || '',
+        }
+      }));
+      toast.success(`Creating quote for ${prefillCustomer.name}`);
+    }
+  }, [prefillCustomer]);
 
   // Customer search with debounce
   useEffect(() => {

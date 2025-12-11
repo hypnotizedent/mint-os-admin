@@ -105,6 +105,28 @@ const SUPPLIER_DISPLAY: Record<string, string> = {
   'ssactivewear': 'S&S Activewear'
 };
 
+// Generate product image URLs from supplier patterns
+function getProductImageUrl(supplier: string, sku: string): string {
+  if (!sku) return '';
+
+  // S&S Activewear image pattern
+  if (supplier === 'ssactivewear') {
+    return `https://www.ssactivewear.com/Images/Style/${sku.toUpperCase()}_fm.jpg`;
+  }
+
+  // SanMar image pattern
+  if (supplier === 'sanmar') {
+    return `https://cdnm.sanmar.com/${sku.toUpperCase()}_00_z.jpg`;
+  }
+
+  // AS Colour - use their CDN pattern
+  if (supplier === 'ascolour') {
+    return `https://www.ascolour.com/media/catalog/product/${sku.toLowerCase()}_hero.jpg`;
+  }
+
+  return '';
+}
+
 const CATEGORY_DISPLAY: Record<string, string> = {
   't-shirts': 'T-Shirts',
   'hoodies': 'Hoodies',
@@ -189,7 +211,7 @@ export function ProductsPage() {
           category: item.category || 'other',
           description: '',
           basePrice: item.basePrice || 0,
-          imageUrl: '', // Supplier API doesn't provide images
+          imageUrl: getProductImageUrl(item.supplier, item.sku),
           images: [],
           colors: item.colors?.map(c => c.name) || [],
           sizes: item.sizes?.map(s => s.name) || [],

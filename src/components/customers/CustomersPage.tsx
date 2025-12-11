@@ -184,7 +184,7 @@ export function CustomersPage({ customers, onViewCustomer, onNewOrder, onCustome
 
       <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
         {filteredCustomers.map((customer) => (
-          <Card key={customer.id} className="p-6 hover:shadow-lg transition-shadow cursor-pointer group">
+          <Card key={customer.id} className="p-6 hover:shadow-lg transition-shadow cursor-pointer group hover:border-blue-500" onClick={() => onViewCustomer?.(customer.id)}>
             <div className="space-y-4">
               <div className="flex items-start justify-between">
                 <div className="flex-1 min-w-0">
