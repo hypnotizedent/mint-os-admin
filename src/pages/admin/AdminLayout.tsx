@@ -339,7 +339,7 @@ export function AdminLayout() {
       <div className="flex min-h-screen bg-background">
         <SkipNavLink />
         <AppSidebar currentPage={currentPage} onNavigate={setCurrentPage} />
-        <SkipNavContent>
+        <SkipNavContent className="flex-1 min-w-0">
           <main className="flex-1 overflow-auto bg-background min-w-0" role="main" aria-label="Main content">
             <div className="w-full p-6">
               {isLoading ? (
