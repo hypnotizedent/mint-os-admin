@@ -92,6 +92,7 @@ export function ProductionScheduleView({ onViewJob }: ProductionScheduleViewProp
   const [viewMode, setViewMode] = useState<'schedule' | 'timeline'>('schedule');
   const [isAdmin] = useState(true); // Will come from auth context
   const [isLoadingMachines, setIsLoadingMachines] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   
   // Fetch machines from API
   useEffect(() => {
@@ -106,8 +107,9 @@ export function ProductionScheduleView({ onViewJob }: ProductionScheduleViewProp
         
         // For now, machines remain empty until Strapi content type is created
         setMachines([]);
-      } catch (error) {
-        console.error('Failed to fetch machines:', error);
+      } catch (err) {
+        console.error('Failed to fetch machines:', err);
+        setError(err instanceof Error ? err.message : 'Failed to load machines');
         setMachines([]);
       } finally {
         setIsLoadingMachines(false);
