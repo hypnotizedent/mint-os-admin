@@ -34,7 +34,8 @@ import { dashboardApi, type Order, type ProductionStats } from "@/lib/dashboard-
 
 export function AdminLayout() {
   const navigate = useNavigate();
-  const [currentPage, setCurrentPage] = useState("dashboard");
+  const [currentPage, setCurrentPage] = useState<string>("dashboard");
+  console.log("AdminLayout initial currentPage:", "dashboard");
   const [selectedCustomerId, setSelectedCustomerId] = useState<string | null>(null);
   const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
   const [customers, setCustomers] = useState<Customer[]>([]);
@@ -247,7 +248,7 @@ export function AdminLayout() {
     }
   };
 
-  const renderPage = () => {
+  const renderPage = () => { console.log("renderPage called with currentPage:", currentPage);
     switch (currentPage) {
       case "dashboard":
         return (

@@ -56,7 +56,7 @@ export function AppSidebar({ currentPage, onNavigate }: AppSidebarProps) {
           return (
             <button
               key={item.href}
-              onClick={() => onNavigate(item.href)}
+              onClick={() => { console.log("CLICK: item.label=", item.label, "item.href=", item.href); onNavigate(item.href); }}
               aria-current={isActive ? 'page' : undefined}
               className={cn(
                 "w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors relative group",

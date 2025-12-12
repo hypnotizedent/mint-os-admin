@@ -1,6 +1,10 @@
 node_modules
-dist
 .git
 *.log
 .env*
 .DS_Store
+src
+tests
+*.md
+*.json
+!package.json
