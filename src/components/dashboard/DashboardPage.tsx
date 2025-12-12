@@ -110,7 +110,7 @@ export function DashboardPage({ stats, recentJobs, machines, onNavigate, onViewO
       {/* Header */}
       <motion.div variants={itemVariants} className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-semibold text-foreground tracking-tight">Dashboard</h1>
+          <h1 className="text-3xl font-bold text-foreground tracking-tight">Dashboard</h1>
           <p className="text-sm text-muted-foreground mt-0.5">{new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
         </div>
         <Button className="gap-2" onClick={() => onNavigate('quotes')}>
@@ -133,7 +133,7 @@ export function DashboardPage({ stats, recentJobs, machines, onNavigate, onViewO
               </Badge>
             </div>
             <div className="mt-3">
-              <p className="text-2xl font-semibold">{stats.newQuotes}</p>
+              <p className="text-3xl font-bold">{stats.newQuotes}</p>
               <p className="text-sm text-muted-foreground">New Quotes</p>
             </div>
           </CardContent>
@@ -151,7 +151,7 @@ export function DashboardPage({ stats, recentJobs, machines, onNavigate, onViewO
               </Badge>
             </div>
             <div className="mt-3">
-              <p className="text-2xl font-semibold">{stats.inProduction}</p>
+              <p className="text-3xl font-bold">{stats.inProduction}</p>
               <p className="text-sm text-muted-foreground">In Production</p>
             </div>
           </CardContent>
@@ -169,7 +169,7 @@ export function DashboardPage({ stats, recentJobs, machines, onNavigate, onViewO
               </Badge>
             </div>
             <div className="mt-3">
-              <p className="text-2xl font-semibold">${stats.revenue.toLocaleString()}</p>
+              <p className="text-3xl font-bold">${stats.revenue.toLocaleString()}</p>
               <p className="text-sm text-muted-foreground">Revenue (MTD)</p>
             </div>
           </CardContent>
@@ -187,7 +187,7 @@ export function DashboardPage({ stats, recentJobs, machines, onNavigate, onViewO
               </Badge>
             </div>
             <div className="mt-3">
-              <p className="text-2xl font-semibold">{stats.dueThisWeek}</p>
+              <p className="text-3xl font-bold">{stats.dueThisWeek}</p>
               <p className="text-sm text-muted-foreground">Due This Week</p>
             </div>
           </CardContent>

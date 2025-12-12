@@ -1,0 +1,36 @@
+import { motion } from 'framer-motion';
+import { ReactNode } from 'react';
+
+interface PageWrapperProps {
+  title: string;
+  subtitle?: string;
+  action?: ReactNode;
+  children: ReactNode;
+}
+
+export function PageWrapper({ title, subtitle, action, children }: PageWrapperProps) {
+  const today = new Date().toLocaleDateString('en-US', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+
+  return (
+    <motion.div
+      className="space-y-6"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+    >
+      <div className="flex justify-between items-start">
+        <div>
+          <h1 className="text-3xl font-bold text-foreground mb-1">{title}</h1>
+          <p className="text-muted-foreground">{subtitle || today}</p>
+        </div>
+        {action && <div>{action}</div>}
+      </div>
+      {children}
+    </motion.div>
+  );
+}
