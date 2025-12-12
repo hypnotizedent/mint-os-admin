@@ -196,7 +196,7 @@ export function ShipmentTracking() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto space-y-6">
+    <div className="w-full space-y-6">
       <div>
         <h1 className="text-2xl font-bold">Shipment Tracking</h1>
         <p className="text-muted-foreground">Track shipped orders and view delivery status</p>

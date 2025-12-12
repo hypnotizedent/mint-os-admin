@@ -84,7 +84,7 @@ export function SOPEditor({ sop, onSave, onCancel }: SOPEditorProps) {
   const isValid = title && category && summary && content
 
   return (
-    <div className="space-y-6 max-w-5xl mx-auto">
+    <div className="space-y-6 w-full">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
