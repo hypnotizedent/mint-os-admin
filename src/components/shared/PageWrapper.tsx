@@ -17,20 +17,22 @@ export function PageWrapper({ title, subtitle, action, children }: PageWrapperPr
   });
 
   return (
-    <motion.div
-      className="space-y-6"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-    >
-      <div className="flex justify-between items-start">
-        <div>
-          <h1 className="text-3xl font-bold text-foreground mb-1">{title}</h1>
-          <p className="text-muted-foreground">{subtitle || today}</p>
+    <div className="min-h-screen bg-gray-50 p-8">
+      <motion.div
+        className="space-y-6"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
+      >
+        <div className="flex justify-between items-start">
+          <div>
+            <h1 className="text-3xl font-bold mb-1">{title}</h1>
+            <p className="text-gray-600">{subtitle || today}</p>
+          </div>
+          {action && <div>{action}</div>}
         </div>
-        {action && <div>{action}</div>}
-      </div>
-      {children}
-    </motion.div>
+        {children}
+      </motion.div>
+    </div>
   );
 }
