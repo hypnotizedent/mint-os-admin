@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { PageWrapper } from '../shared/PageWrapper';
+import { StandardPageLayout } from '../shared/StandardPageLayout';
 import { Printer, Calendar } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -59,16 +59,16 @@ export function ProductionScheduleView() {
   }
 
   return (
-    <PageWrapper
+    <StandardPageLayout
       title="Production Schedule"
-      action={
+      actions={
         <Button className="gap-2">
           <Printer className="w-4 h-4" />
           Add Machine
         </Button>
       }
     >
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {machines.map((machine) => (
           <div key={machine.id} className="bg-card rounded-xl border border-border p-6 hover:shadow-md transition-shadow">
             <div className="flex items-center gap-3 mb-4">
@@ -106,6 +106,6 @@ export function ProductionScheduleView() {
           <p className="text-sm mt-2">Add machines to monitor production equipment</p>
         </div>
       )}
-    </PageWrapper>
+    </StandardPageLayout>
   );
 }

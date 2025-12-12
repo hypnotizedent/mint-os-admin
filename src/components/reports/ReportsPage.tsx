@@ -7,6 +7,7 @@ import { SalesReport } from "./SalesReport"
 import { ProductionReport } from "./ProductionReport"
 import { CustomerReport } from "./CustomerReport"
 import { getDateRange } from "@/lib/reports-api"
+import { StandardPageLayout } from "@/components/shared/StandardPageLayout"
 
 type DatePeriod = 'week' | 'month' | 'quarter' | 'year'
 
@@ -44,37 +45,33 @@ export function ReportsPage() {
   ]
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-foreground tracking-tight">Reports</h1>
-          <p className="text-muted-foreground mt-1">Analytics and insights for your print shop</p>
+    <StandardPageLayout
+      title="Reports"
+      subtitle="Analytics and insights for your print shop"
+      actions={
+        <div className="flex items-center gap-2">
+          <CalendarBlank size={20} className="text-muted-foreground" />
+          <Select value={period} onValueChange={(value: DatePeriod) => setPeriod(value)}>
+            <SelectTrigger className="w-[140px]">
+              <SelectValue placeholder="Select period" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="week">This Week</SelectItem>
+              <SelectItem value="month">This Month</SelectItem>
+              <SelectItem value="quarter">This Quarter</SelectItem>
+              <SelectItem value="year">This Year</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2">
-            <CalendarBlank size={20} className="text-muted-foreground" />
-            <Select value={period} onValueChange={(value: DatePeriod) => setPeriod(value)}>
-              <SelectTrigger className="w-[140px]">
-                <SelectValue placeholder="Select period" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="week">This Week</SelectItem>
-                <SelectItem value="month">This Month</SelectItem>
-                <SelectItem value="quarter">This Quarter</SelectItem>
-                <SelectItem value="year">This Year</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-        </div>
-      </div>
-
+      }
+    >
       {/* Date Range Display */}
-      <div className="text-sm text-muted-foreground">
+      <div className="text-sm text-muted-foreground mb-6">
         Showing data from <span className="font-medium text-foreground">{dateRange.dateFrom}</span> to <span className="font-medium text-foreground">{dateRange.dateTo}</span>
       </div>
 
       {/* Report Navigation Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
         {reportCards.map((report) => (
           <Card 
             key={report.id}
@@ -134,6 +131,6 @@ export function ReportsPage() {
           <CustomerReport dateFrom={dateRange.dateFrom} dateTo={dateRange.dateTo} />
         </TabsContent>
       </Tabs>
-    </div>
+    </StandardPageLayout>
   )
 }

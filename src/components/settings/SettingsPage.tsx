@@ -4,15 +4,14 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { StandardPageLayout } from "@/components/shared/StandardPageLayout"
 
 export function SettingsPage() {
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold text-foreground tracking-tight">Settings</h1>
-        <p className="text-muted-foreground mt-1">Configure your Mint OS preferences</p>
-      </div>
-
+    <StandardPageLayout
+      title="Settings"
+      subtitle="Configure your Mint OS preferences"
+    >
       <Tabs defaultValue="general" className="space-y-6">
         <TabsList>
           <TabsTrigger value="general">General</TabsTrigger>
@@ -131,6 +130,6 @@ export function SettingsPage() {
           </div>
         </TabsContent>
       </Tabs>
-    </div>
+    </StandardPageLayout>
   )
 }

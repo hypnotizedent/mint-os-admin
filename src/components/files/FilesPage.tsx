@@ -131,7 +131,7 @@ export function FilesPage({ files: initialFiles = [] }: FilesPageProps) {
   const isInSubfolder = currentPath !== "/"
 
   return (
-    <div className="space-y-6">
+    <div className="w-full space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-foreground tracking-tight">Files</h1>

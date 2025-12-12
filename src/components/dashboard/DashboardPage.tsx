@@ -102,7 +102,7 @@ export function DashboardPage({ stats, recentJobs, machines, onNavigate, onViewO
 
   return (
     <motion.div 
-      className="space-y-6"
+      className="w-full space-y-6"
       initial="hidden"
       animate="show"
       variants={containerVariants}

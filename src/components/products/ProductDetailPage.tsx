@@ -94,7 +94,7 @@ export function ProductDetailPage({ product, onBack, onAddToQuote }: ProductDeta
   };
 
   return (
-    <div className="space-y-6">
+    <div className="w-full space-y-6">
       {/* Back Button */}
       <Button variant="ghost" onClick={onBack} className="gap-2">
         <ArrowLeft size={18} />
@@ -169,7 +169,7 @@ export function ProductDetailPage({ product, onBack, onAddToQuote }: ProductDeta
         </div>
 
         {/* Product Info */}
-        <div className="space-y-6">
+        <div className="w-full space-y-6">
           {/* Header */}
           <div>
             <div className="flex items-center gap-2 mb-2">

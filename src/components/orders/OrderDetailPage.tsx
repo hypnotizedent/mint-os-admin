@@ -374,7 +374,7 @@ export function OrderDetailPage({ orderId, onBack, onViewCustomer }: OrderDetail
 
   if (isLoading) {
     return (
-      <div className="space-y-6">
+      <div className="w-full space-y-6">
         <div className="flex items-center gap-4">
           <Skeleton className="h-10 w-10" />
           <div className="space-y-2">
@@ -395,7 +395,7 @@ export function OrderDetailPage({ orderId, onBack, onViewCustomer }: OrderDetail
 
   if (error || !order) {
     return (
-      <div className="space-y-6">
+      <div className="w-full space-y-6">
         <Button variant="ghost" onClick={onBack} className="gap-2">
           <ArrowLeft size={18} />
           Back
@@ -412,7 +412,7 @@ export function OrderDetailPage({ orderId, onBack, onViewCustomer }: OrderDetail
   }
 
   return (
-    <div className="space-y-6">
+    <div className="w-full space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
@@ -699,7 +699,7 @@ export function OrderDetailPage({ orderId, onBack, onViewCustomer }: OrderDetail
         </div>
 
         {/* Sidebar */}
-        <div className="space-y-6">
+        <div className="w-full space-y-6">
           {/* Customer Info */}
           <Card>
             <CardHeader>
