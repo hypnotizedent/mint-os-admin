@@ -28,7 +28,7 @@ export function FilesPage({ files: initialFiles = [] }: FilesPageProps) {
       // TODO: Add authentication headers when auth is implemented
       // const token = getAuthToken();
       // const headers = { 'Authorization': `Bearer ${token}` };
-      const response = await fetch(`${API_BASE}/api/files?path=${encodeURIComponent(currentPath)}`)
+      const response = await fetch(`${API_BASE}/api/files?bucket=artwork&path=${encodeURIComponent(currentPath === '/' ? '' : currentPath.slice(1))}`)
       
       if (!response.ok) {
         throw new Error('Failed to fetch files')
@@ -99,7 +99,7 @@ export function FilesPage({ files: initialFiles = [] }: FilesPageProps) {
 
   const handleDownload = async (file: FileItem) => {
     try {
-      const response = await fetch(`${API_BASE}/api/files/download?path=${encodeURIComponent(file.path)}`)
+      const response = await fetch(`${API_BASE}/api/files/download?bucket=artwork&path=${encodeURIComponent(file.path)}`)
       
       if (!response.ok) {
         throw new Error('Failed to get download URL')
@@ -107,10 +107,10 @@ export function FilesPage({ files: initialFiles = [] }: FilesPageProps) {
       
       const result = await response.json()
       
-      if (result.success && result.data?.url) {
+      if (result.success && (result.url || result.data?.url)) {
         // Create a temporary anchor element for secure download
         const link = document.createElement('a')
-        link.href = result.data.url
+        link.href = result.url || result.data?.url
         link.download = file.name
         link.rel = 'noopener noreferrer' // Security: prevent window.opener access
         link.style.display = 'none'
