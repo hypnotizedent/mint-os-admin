@@ -17,7 +17,7 @@ export function PageWrapper({ title, subtitle, action, children }: PageWrapperPr
   });
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
+    <div className="p-6">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -27,7 +27,7 @@ export function PageWrapper({ title, subtitle, action, children }: PageWrapperPr
         <div className="mb-6 flex justify-between items-center">
           <div>
             <h1 className="text-2xl font-bold text-gray-900">{title}</h1>
-            <p className="text-sm text-gray-600 mt-1">{subtitle || today}</p>
+            <p className="text-sm text-gray-500 mt-1">{subtitle || today}</p>
           </div>
           {action && <div>{action}</div>}
         </div>
