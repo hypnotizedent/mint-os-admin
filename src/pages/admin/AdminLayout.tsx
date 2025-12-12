@@ -340,8 +340,8 @@ export function AdminLayout() {
         <SkipNavLink />
         <AppSidebar currentPage={currentPage} onNavigate={setCurrentPage} />
         <SkipNavContent>
-          <main className="flex-1 overflow-auto bg-background" role="main" aria-label="Main content">
-            <div className="w-full">
+          <main className="flex-1 overflow-auto bg-background min-w-0" role="main" aria-label="Main content">
+            <div className="w-full p-6 bg-red-500/20">
               {isLoading ? (
                 <PageLoading message={`Loading dashboard... (${totalOrders.toLocaleString()} orders)`} />
               ) : (
