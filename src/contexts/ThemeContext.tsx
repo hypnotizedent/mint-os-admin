@@ -1,6 +1,7 @@
 /**
  * ThemeContext - Dark/Light mode management
  * Persists user preference to localStorage
+ * Default: dark mode (GitHub-style)
  */
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 
@@ -16,15 +17,15 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setTheme] = useState<Theme>(() => {
-    // Get from localStorage or default to system
+    // Get from localStorage or default to dark
     if (typeof window !== 'undefined') {
-      const stored = localStorage.getItem('printshop-theme') as Theme;
+      const stored = localStorage.getItem('mintshop-theme') as Theme;
       if (stored) return stored;
     }
-    return 'system';
+    return 'dark'; // Default to dark mode
   });
 
-  const [resolvedTheme, setResolvedTheme] = useState<'light' | 'dark'>('light');
+  const [resolvedTheme, setResolvedTheme] = useState<'light' | 'dark'>('dark');
 
   useEffect(() => {
     const root = window.document.documentElement;
@@ -55,7 +56,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 
   const handleSetTheme = (newTheme: Theme) => {
     setTheme(newTheme);
-    localStorage.setItem('printshop-theme', newTheme);
+    localStorage.setItem('mintshop-theme', newTheme);
   };
 
   return (

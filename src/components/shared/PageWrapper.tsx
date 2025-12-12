@@ -26,8 +26,8 @@ export function PageWrapper({ title, subtitle, action, children }: PageWrapperPr
         {/* Page Header */}
         <div className="mb-6 flex justify-between items-center">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">{title}</h1>
-            <p className="text-sm text-gray-500 mt-1">{subtitle || today}</p>
+            <h1 className="text-2xl font-bold text-foreground">{title}</h1>
+            <p className="text-sm text-muted-foreground mt-1">{subtitle || today}</p>
           </div>
           {action && <div>{action}</div>}
         </div>
