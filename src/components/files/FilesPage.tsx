@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react"
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:1337";
+const API_BASE = import.meta.env.VITE_DASHBOARD_API_URL || "http://localhost:3335";
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
